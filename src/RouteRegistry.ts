@@ -3,7 +3,7 @@ import { Handler, RegisteredRoute } from './RegisteredRoute';
 import { Method, Path, QueryParams, UriParams } from './types';
 
 export class RouteRegistry {
-  constructor(private readonly appOrRouter: IRouter, options: any) {}
+  constructor(private readonly appOrRouter: IRouter, options?: any) {}
 
   register<P extends UriParams, Q extends QueryParams>(
     method: Method,

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "serve:example": "nodemon -x ts-node --files example/routes.ts",
+    "serve:example": "nodemon -x ts-node --files example/app.ts",
     "test": "mocha -r ts-node/register test/**/*spec.ts"
   },
   "author": "",
