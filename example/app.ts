@@ -3,7 +3,7 @@ import { RouteRegistry } from '../src/RouteRegistry';
 import { articleRouter, articleRoutes } from './article-routes';
 
 const app = express();
-app.use('/articles/', articleRouter);
+app.use(articleRouter);
 
 const registry = new RouteRegistry(app);
 const baseRoutes = {
