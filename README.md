@@ -1,5 +1,7 @@
 # Express Reverse Routing
 
+**There are some open problems as listed in [probleme.md](probleme.md)**
+
 ## The general idea
 
 The idea was to provide reverse routing by creating a thin layer on top of Node Express.
@@ -32,7 +34,7 @@ The second generic type parameter is a type description of the possible query pa
 
 This type information is used to ensure type safety in the `buildUri()` method as well as for the handlers (controller method) of a `RegisteredRoute`.
 
-### Registered Routes to ensure a controllers type safety at compile time
+### Registered Routes for type assurances
 
 A `RegisteredRoute` represents a `Route` combined with a handler function, registered with an Express app or router:
 
@@ -40,15 +42,19 @@ A `RegisteredRoute` represents a `Route` combined with a handler function, regis
 const app = express();
 const registry = new RouteRegistry(app);
 
-export const baseRoutes = {
-  healthCheck: registry.register('GET', ['health'], (req, res) => {
+export const getOrderRoute = registry.register<{ orderId: string }, { foo?: string }>(
+  'GET',
+  ['orders', param('orderId')],
+  (req, res) => {
+    console.log(req.params.orderId); // req.params is of type { orderId: string }
+    console.log(req.query.foo); // req.query is of type { foo: number }
     return res.status(200);
-  }),
+  },
+);
 
-  index: registry.register('GET', [], (req, res) => {
-    return res.send(`<a href="${articleRoutes.getArticle.buildUri({ articleId: 'foo' }, {})}">Article Foo</a>`);
-  }),
-};
+export const indexRoute = registry.register<{}, {}>('GET', [], (req, res) => {
+  return res.send(`<a href="${getOrderRoute.buildUri({ orderId: 'foo' }, {})}">Order Foo</a>`);
+});
 ```
 
 The `baseRotes` object can now be used as a registry containing only routes that have a registered handler.
