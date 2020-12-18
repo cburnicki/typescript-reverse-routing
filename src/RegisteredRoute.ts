@@ -16,7 +16,7 @@ export class RegisteredRoute<P extends UriParams, Q extends QueryParams> extends
   private register(appOrRouter: IRouter, handler: Handler<P, Q>) {
     switch (this.method) {
       case 'GET':
-        appOrRouter.get(this.pathString, (req, res) => {});
+        appOrRouter.get(this.pathString, this.handle(handler));
         break;
       case 'POST':
         appOrRouter.post(this.pathString, this.handle(handler));
